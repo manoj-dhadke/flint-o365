@@ -30,26 +30,23 @@ begin
          # iterating  item array and inserting customer id in each json object of item array
          all_subscription.each do |items|
              request_body = {}
-
              # request_body['customerId'] = @id # inserting customerId in the item array
              request_body['action'] = 'sync-subscriptions' # inserting action in the array
-             request_body['customerId'] = @id
+	     request_body['customerId']= @id
+
+
              # checking if the user have ad-ons
              if items.key?('parentSubscriptionId')
-                 request_body['subscription_add_on'] = items
-
+                 request_body['subscription-add-on'] = items
+		        
              # if subscription does not have adons
              else
                  request_body['subscription'] = items
-
+                 
              end
-
-
-
 
              # calling http_request flintbit to upload data on specified URl
              @call.bit('flint-snow:microsoft-cloud:customer:subscriptions:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', request_body.to_json).sync
-             @log.info("#{request_body.class}");
          end
      # if exitcode other than Zero then it will send error message with exitcode 1
      else
