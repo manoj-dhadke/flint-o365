@@ -1,4 +1,4 @@
-@log.trace("Started execution 'flint-o365:http:http_reqeust.rb' flintbit...") 
+@log.trace("Started execution 'flint-o365:http:http_reqeust.rb' flintbit...") # execution Started
 begin
 
     # getting input information from sync.rb
@@ -38,5 +38,5 @@ begin
     @log.info("response:#{response.exitcode}") # printing response exit code
     @log.info("response:#{response_body}") # printing response Body
 end
-@log.trace("Finished execution 'flint-o365:http:http_reqeust.rb' flintbit...") 
 
+@log.trace("Finished execution 'flint-o365:http:http_reqeust.rb' flintbit...") # Execution Finished

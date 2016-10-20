@@ -1,21 +1,21 @@
 require 'json'
 
-@log.trace("Started execution'flint-snow:microsoft-cloud:customer:subscription:sync.rb' flintbit...") # starting execution
+@log.trace("Started execution 'flint-o365:customer:subscription:activate_subscription.rb' flintbit...") 
 begin
-     # Flintbit Input Parameters
 
      # Mandatory
-     @connector_name = 'office365' # Name of the office365 Connector
-     @id = @input.get('customer-id') # id of the Microsoft Account
+     @connector_name = @input.get('connector-name') 			# Name of the office365 Connector
+     @action = @input.get('action')			                #'change-subscription-quantity'
+     @microsoft_id = @input.get('customer-id') 			        # id of the Microsoft Account
      @subscriptionId=@input.get('subscription-id')
      @quantity=@input.get('quantity')
+     @microsoftCloudActionUrl = '/MSCustomerSubscription/performOperations'  
 
-     @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | Customer ID::#{@id}")
+     @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | Customer ID::#{@microsoft_id} | Subscription Id :: #{@subscriptionId} | Quantity :: #{@quantity}")
 
-     # calling office365 connector
      response = @call.connector(@connector_name)
-                     .set('action','change-subscription-quantity')
-                     .set('microsoft-id', @id)
+                     .set('action', @action)
+                     .set('microsoft-id', @microsoft_id)
                      .set('subscription-id',@subscriptionId)
                      .set('quantity',@quantity)
                      .sync
@@ -23,24 +23,23 @@ begin
      response_exitcode = response.exitcode # Exit status code
      response_message =  response.message # Execution status message
 
-     response_body_string = JSON.parse(response.get('body')) # parsing json string to JSON Object
+     response_body = JSON.parse(response.get('body')) # parsing json string to JSON Object
+     response_body['action'] = @action 
+     response_body['customer-id'] = @microsoft_id
+     response_body['subscription-id'] = response_body['id']   
 
-     @log.info(response_body_string.to_s)
+     @log.info("#{response_body}")
 
-     if response_exitcode.zero?
-
-         @log.info('success')
-
-     else
+       if response_exitcode==0
+      	     @log.info("Success in executing #{@connector_name} Connector, where exitcode :: #{response_exitcode} | message :: #{response_message}")
+             @output.set("result::",response_body)
+            #@call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', response_body).sync
+       else
          @log.error("ERROR in executing #{@connector_name} where, exitcode :: #{response_exitcode} | message :: #{response_message}")
          @output.exit(1, response_message)
-               end
-
- # if any Exception occur in the flintbit then it will catch by rescue
- rescue Exception => e
+       end
+rescue Exception => e
      @log.error(e.message)
      @output.set('exit-code', 1).set('message', e.message)
-
- end
-
-@log.trace("Finished execution 'flint-snow:microsoft-cloud:customer:subscription:sync.rb' flintbit...") # Execution Finished
+end
+@log.trace("Finished execution 'flint-o365:customer:subscription:change_subscription_quantity.rb' flintbit...") 
