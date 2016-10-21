@@ -34,7 +34,7 @@ begin
              request_body['customerId'] = @id
              # checking if the user have ad-ons
              if items.key?('parentSubscriptionId')
-                 request_body['subscription_add_on'] = items
+                 request_body['subscription-add-on'] = items
              else
                  request_body['subscription'] = items
              end
