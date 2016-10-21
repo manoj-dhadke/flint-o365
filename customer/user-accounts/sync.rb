@@ -4,12 +4,13 @@ require 'json'
 begin
      # Mandatory
      @connector_name = @input.get("connector-name") # Name of the office365 Connector
+     @action = 'get-all-customer-user-accounts'
      @id = @input.get('customer-id') # id of the Microsoft Account
      @microsoftCloudActionUrl = '/MSCustomerSubscription/performOperations' #microsoft Action URl
      @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | Customer ID::#{@id}")
 
      response = @call.connector(@connector_name)
-                     .set('action', 'get-all-customer-user-accounts')
+                     .set('action', @action)
                      .set('microsoft-id', @id)
                      .sync
 

@@ -2,9 +2,9 @@ require 'json'
 @log.trace("Started execution'flint-o365:microsoft-cloud:user-accounts:licence:sync.rb' flintbit...") 
 begin
      # Flintbit Input Parameters
-     @connector_name = @input.get('connector_name')        # Name of the Connector                     
+     @connector_name = @input.get('connector-name')        # Name of the Connector                     
      @microsoft_id = @input.get("customer-id")             # id of the Microsoft Account
-     @action = @input.get("action")
+     @action = 'get-user-licenses'
      @microsoftCloudActionUrl = '/MSCustomerSubscription/performOperations'    
      @user_id = @input.get('user-id')                      #id of the user Account
 
@@ -32,11 +32,11 @@ begin
         license={}
         out.each do |licenses|
        
-        licenses['user-account-id'] = @user_id
+        licenses['user-account-id'] = u_id
         licenses['customer-id'] = @microsoft_id 
         licenses['licenseId'] = licenses["productSku"]["id"]
         iterator = Hash["license"=> licenses]
-        iterator["action"] = @action
+        iterator["action"] = "sync-licenses"
         json_obj = iterator.to_json
         @log.info("OUTPUT :: #{json_obj}")
         @output.set("result::","#{json_obj}")

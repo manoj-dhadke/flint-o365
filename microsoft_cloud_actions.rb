@@ -13,33 +13,33 @@ case action
 when 'sync-subscriptions' # case of action sync-subscriptions
 
     @log.info("Calling 'flint-o365:customer:subscription:sync.rb' flintbit to get subscriptions list")
-    @call.bit('flint-o365:customer:subscriptions:sync.rb').set('connector_name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000)
+    @call.bit('flint-o365:customer:subscriptions:sync.rb').set('connector-name', @ofiice365_connector_name).set('action',action).setraw(@input.raw.to_s).timeout(120000)
          .sync
 
 when 'sync-users' # case of action get-all-customer of user
 
     @log.info("Calling 'flint-o365:customer:user-accounts:sync.rb' flintbit to start assets")
-    @call.bit('flint-o365:customer:user-accounts:sync.rb').set('connector_name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+    @call.bit('flint-o365:customer:user-accounts:sync.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
-when 'get-user-licenses' # case of action for getting user licenses
+when 'sync-licenses' # case of action for getting user licenses
     @log.info("flint-o365:customer:user-accounts:licences:sync.rb")
-    @call.bit('flint-o365:customer:user-accounts:licences:sync.rb').set('connector_name', @connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+    @call.bit('flint-o365:customer:user-accounts:licences:sync.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 when 'add-user' # case of action for getting user licenses
     @log.info("flint-o365:customer:user-accounts:add_user.rb")
-    @call.bit('flint-o365:customer:user-accounts:add_user.rb').set('connector_name', @connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+    @call.bit('flint-o365:customer:user-accounts:add_user.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 when 'change-subscription-quantity' # case of action for getting user licenses
     @log.info("flint-o365:customer:subscriptions:change_subscription_quantity.rb")
-    @call.bit('flint-o365:customer:subscriptions:change_subscription_quantity.rb').set('connector_name', @connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+    @call.bit('flint-o365:customer:subscriptions:change_subscription_quantity.rb').set('connector-name', @connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 when 'activate-subscription' # case of action for getting user licenses
     @log.info("flint-o365:customer:subscriptions:activate_subscription.rb")
-    @call.bit('flint-o365:customer:subscriptions:activate_subscription.rb').set('connector_name', @connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+    @call.bit('flint-o365:customer:subscriptions:activate_subscription.rb').set('connector-name', @connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 when 'add-user' # case of action for getting user licenses
     @log.info("flint-o365:customer:subscriptions:suspend_subscription.rb")
-    @call.bit('flint-o365:customer:subscriptions:suspend_subscription.rb').set('connector_name', @connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+    @call.bit('flint-o365:customer:subscriptions:suspend_subscription.rb').set('connector-name', @connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 
 else

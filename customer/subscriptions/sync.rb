@@ -5,7 +5,7 @@ begin
 
      # Mandatory
      @connector_name = @input.get('connector-name')			 # Name of the office365 Connector
-     @action = @input.get('action')
+     @action = 'get-all-subscriptions'
      @id = @input.get('customer-id') 					 # id of the Microsoft Account
 
      @microsoftCloudActionUrl = '/MSCustomerSubscription/performOperations'
