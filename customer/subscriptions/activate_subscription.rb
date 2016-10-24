@@ -3,7 +3,7 @@ require 'json'
 begin
      # Mandatory
      @connector_name = @input.get('connector-name')			 # Name of the Connector
-     @action = @input.get('action')                                      #'activate-subscription'
+     @action = 'activate-subscription'								 #@input.get('action')                                      
      @microsoft_id = @input.get('customer-id')				 # id of the Microsoft Account
      @subscriptionId = @input.get('subscription-id')
      @microsoftCloudActionUrl = '/MSCustomerSubscription/performOperations'       
@@ -20,14 +20,13 @@ begin
      response_message =  response.message # Execution status message
      
       response_body = JSON.parse(response.get('body')) 
-      response_body['action'] = @action 
+      response_body['action'] = "" 
       response_body['customer-id'] = @microsoft_id
       response_body['subscription-id'] = response_body['id'] 
 
       @log.info("#{response_body}")
 
      if response_exitcode==0
-
 
          @log.info("Success in executing #{@connector_name} Connector, where exitcode :: #{response_exitcode} | message :: #{response_message}")
          @output.set("result::",response_body)

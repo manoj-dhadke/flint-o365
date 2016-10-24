@@ -1,9 +1,9 @@
 require 'json'
-@log.trace("Started execution'flint-o365:microsoft-cloud:user_account:delete_user.rb' flintbit...") 
+@log.trace("Started execution'flint-o365:customer:user_account:delete_user.rb' flintbit...") 
 begin
      # Flintbit Input Parameters
-     @connector_name = @input.get('connector_name')        # Name of the Connector
-     @action = @input.get("action")                        #delete-user                             
+     @connector_name = @input.get('connector-name')        # Name of the Connector
+     @action = 'delete-user'				   #@input.get("action")                                                     
      @microsoft_id = @input.get("customer-id")             # id of the Microsoft Account
      @user_id = @input.get("user-id")
 
@@ -20,14 +20,15 @@ begin
      response_exitcode = response.exitcode # Exit status code
      response_message =  response.message # Execution status message
      response_body = response.get("body")
+     response_body['action'] = "" 
+     response_body['customer-id'] = @microsoft_id
      @log.info("#{response_body}")
      
      if response_exitcode==0
         response = true
         @log.info("Success in executing #{@connector_name} Connector, where exitcode :: #{response_exitcode} | message :: #{response_message}")
-        @output.set("result::", true)
-
-       # @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', response).sync   
+        @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', response).sync
+        @output.set("result::", true)   
      else
          @log.error("ERROR in executing #{@connector_name} where, exitcode :: #{response_exitcode} | message :: #{response_message}")
          @output.exit(1, response_message)
@@ -37,4 +38,4 @@ rescue Exception => e
     @output.set('exit-code', 1).set('message', e.message)
 end
 
-@log.trace("Finished execution 'flint-o365:microsoft-cloud:user_account:delete_user.rb' flintbit...") 
+@log.trace("Finished execution 'flint-o365:customer:user_account:delete_user.rb' flintbit...") 

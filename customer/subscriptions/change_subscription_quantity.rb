@@ -1,11 +1,10 @@
 require 'json'
-
-@log.trace("Started execution 'flint-o365:customer:subscription:activate_subscription.rb' flintbit...") 
+@log.trace("Started execution 'flint-o365:customer:subscription:change_subscription_quantity.rb' flintbit...") 
 begin
 
      # Mandatory
      @connector_name = @input.get('connector-name') 			# Name of the office365 Connector
-     @action = @input.get('action')			                #'change-subscription-quantity'
+     @action = 'change-subscription-quantity'				#@input.get('action')			                
      @microsoft_id = @input.get('customer-id') 			        # id of the Microsoft Account
      @subscriptionId=@input.get('subscription-id')
      @quantity=@input.get('quantity')
@@ -24,7 +23,7 @@ begin
      response_message =  response.message # Execution status message
 
      response_body = JSON.parse(response.get('body')) # parsing json string to JSON Object
-     response_body['action'] = @action 
+     response_body['action'] = "" 
      response_body['customer-id'] = @microsoft_id
      response_body['subscription-id'] = response_body['id']   
 

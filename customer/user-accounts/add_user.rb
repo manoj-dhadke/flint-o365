@@ -2,12 +2,9 @@ require 'json'
 @log.trace("Started execution'flint-o365:microsoft-cloud:user_account:add_user.rb' flintbit...") 
 begin
      # Flintbit Input Parameters
-     @connector_name = @input.get('connector_name')        # Name of the Connector
-     if @connector_name.nil?
-        @connector_name = 'office365'
-     end                                 
+     @connector_name = @input.get('connector-name')        # Name of the Connector                               
      @microsoft_id = @input.get("customer-id")             # id of the Microsoft Account
-     @action = @input.get("action")                        #add-user
+     @action = 'add-user'				   #@input.get("action")                        
      @usage_location = @input.get("usage-location")
      @display_name = @input.get("display-name")
      @user_password = @input.get("user-password")
@@ -41,9 +38,10 @@ begin
      if response_exitcode==0
         @log.info("Success in executing #{@connector_name} Connector, where exitcode :: #{response_exitcode} | message :: #{response_message}")
         response_body = JSON.parse(response.get('body'))
+        response_body['action'] = "" 
+        response_body['customer-id'] = @microsoft_id
+        @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', json_obj).sync   
         @output.set("result::", response_body)
-
-       # @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', json_obj).sync   
      else
          @log.error("ERROR in executing #{@connector_name} where, exitcode :: #{response_exitcode} | message :: #{response_message}")
          @output.exit(1, response_message)

@@ -3,7 +3,7 @@ require 'json'
 begin
 
      @connector_name = @input.get('connector-name') 		# Name of Connector
-     @action = @input.get('action')            		        #'suspend-subscription'
+     @action = 'suspend-subscription'				#@input.get('action')            		        
      @microsoft_id = @input.get('customer-id')		        # id of the Microsoft Account
      @subscription_id=@input.get('subscription-id')
      @microsoftCloudActionUrl = '/MSCustomerSubscription/performOperations'  
@@ -25,9 +25,10 @@ begin
 
      if response_exitcode==0
          response_body = JSON.parse(response.get('body')) # parsing json string to JSON Object
-         response_body['action'] = @action 
+         response_body['action'] = "" 
          response_body['customer-id'] = @microsoft_id
          response_body['subscription-id'] = response_body['id']       
+
          @log.info("Success in executing #{@connector_name} Connector, where exitcode :: #{response_exitcode} | message :: #{response_message}")
          @output.set("result::",response_body)
          @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', response_body).sync
