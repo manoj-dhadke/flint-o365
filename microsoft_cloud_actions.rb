@@ -49,6 +49,17 @@ when 'remove-licenses' # case of action for getting remove licenses
     @log.info("flint-o365:customer:subscriptions:remove_licenses.rb")
     @call.bit('flint-o365:customer:subscriptions:remove_licenses.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
+when 'activate-subscription-add-on' # case of action for getting activate
+    @log.info("flint-o365:customer:subscription-add-ons:activate.rb")
+    @call.bit('flint-o365:customer:subscription-add-ons:activate.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+
+when 'change-subscription-add-on-quantity' # case of action for getting change_quantity
+    @log.info("flint-o365:customer:subscription-add-ons:change_quantity.rb")
+    @call.bit('flint-o365:customer:subscription-add-ons:change_quantity.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+
+when 'suspend-subscription-add-on' # case of action for getting suspend
+    @log.info("flint-o365:customer:subscription-add-ons:suspend.rb")
+    @call.bit('flint-o365:customer:subscription-add-ons:suspend.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 else
   @log.error('Invalid action provided, Please provide valid action')
