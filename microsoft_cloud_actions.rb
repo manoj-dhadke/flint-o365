@@ -29,6 +29,11 @@ when 'add-user' # case of action for getting user licenses
     @log.info("flint-o365:customer:user-accounts:add_user.rb")
     @call.bit('flint-o365:customer:user-accounts:add_user.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
+when 'delete-user' # case of action for getting user licenses
+    @log.info("flint-o365:customer:user-accounts:delete_user.rb")
+    @call.bit('flint-o365:customer:user-accounts:delete_user.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+
+
 when 'change-subscription-quantity' # case of action for getting user licenses
     @log.info("flint-o365:customer:subscriptions:change_subscription_quantity.rb")
     @call.bit('flint-o365:customer:subscriptions:change_subscription_quantity.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync

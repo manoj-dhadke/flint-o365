@@ -38,9 +38,9 @@ begin
      if response_exitcode==0
         @log.info("Success in executing #{@connector_name} Connector, where exitcode :: #{response_exitcode} | message :: #{response_message}")
         response_body = JSON.parse(response.get('body'))
-        response_body['action'] = "" 
+        response_body['action'] = @action
         response_body['customer-id'] = @microsoft_id
-        @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', json_obj).sync   
+        @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', response_body.to_json).sync   
         @output.set("result::", response_body)
      else
          @log.error("ERROR in executing #{@connector_name} where, exitcode :: #{response_exitcode} | message :: #{response_message}")
