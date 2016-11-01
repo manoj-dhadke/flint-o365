@@ -26,7 +26,6 @@ begin
      response_body['action'] = @action 
      response_body['customer-id'] = @microsoft_id
      response_body['subscription-add-on-id'] = response_body['id']   
-
      @log.info("#{response_body}")
 
        if response_exitcode==0
