@@ -6,11 +6,11 @@ begin
      @connector_name = @input.get('connector-name') 			# Name of the office365 Connector
      @action = 'change-subscription-add-on-quantity'				#@input.get('action')			                
      @microsoft_id = @input.get('customer-id') 			        # id of the Microsoft Account
-     @subscriptionId=@input.get('subscription-ad-on-id')
+     @subscriptionId=@input.get('subscription-add-on-id')
      @quantity=@input.get('quantity')
      @microsoftCloudActionUrl = '/MSCustomerSubscriptionAddOn/performOperations'  
 
-     @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | Customer ID::#{@microsoft_id} | Subscription-ad-on Id :: #{@subscriptionId} | Quantity :: #{@quantity}")
+     @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | Customer ID::#{@microsoft_id} | Subscription-add-on Id :: #{@subscriptionId} | Quantity :: #{@quantity}")
 
      response = @call.connector(@connector_name)
                      .set('action', 'change-subscription-quantity')
