@@ -9,7 +9,7 @@ begin
      @subscriptionId=@input.get('subscription-add-on-id')
      @quantity=@input.get('quantity')
      @microsoftCloudActionUrl = '/MSCustomerSubscriptionAddOn/performOperations'  
-
+     @log.info("$$$$$$$$$$$")
      @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | Customer ID::#{@microsoft_id} | Subscription-add-on Id :: #{@subscriptionId} | Quantity :: #{@quantity}")
 
      response = @call.connector(@connector_name)
