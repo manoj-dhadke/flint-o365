@@ -44,7 +44,7 @@ begin
              @log.info("#{output}")        
       	     @log.info("Success in executing #{@connector_name} Connector, where exitcode :: #{response_exitcode} | message :: #{response_message}")
              @output.set("result::",response_body)
-             @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', output).sync
+             @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', output.to_json).sync
        else
          out ={}
          meta = {}
@@ -54,6 +54,7 @@ begin
          output = out.to_json
          @log.info("#{output}")
          @log.error("ERROR in executing #{@connector_name} where, exitcode :: #{response_exitcode} | message :: #{response_message}")
+         @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120000).set('body', output.to_json).sync
          @output.exit(1, response_message)
        end
 rescue Exception => e
