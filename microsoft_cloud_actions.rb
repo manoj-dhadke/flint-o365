@@ -66,6 +66,14 @@ when 'suspend-subscription-add-on' # case of action for getting suspend
     @log.info("flint-o365:customer:subscription-add-ons:suspend.rb")
     @call.bit('flint-o365:customer:subscription-add-ons:suspend.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
+when 'update-user' # case of action for getting suspend
+    @log.info("flint-o365:customer:user-accounts:update_user.rb")
+    @call.bit('flint-o365:customer:user-accounts:update_user.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+
+when 'reset-user-account-password' # case of action for getting suspend
+    @log.info("flint-o365:customer:user-accounts:reset_password.rb")
+    @call.bit('flint-o365:customer:user-accounts:reset_password.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+
 else
   @log.error('Invalid action provided, Please provide valid action')
   @output.exit(4, 'Invalid action provided, Please provide valid action')
