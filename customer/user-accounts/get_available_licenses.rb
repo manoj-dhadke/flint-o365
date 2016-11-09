@@ -1,31 +1,18 @@
 require 'json'
-@log.trace("Started execution'flint-o365:microsoft-cloud:user_account:update_user.rb' flintbit...")
+@log.trace("Started execution'flint-o365:microsoft-cloud:user_account:get_available_licences.rb' flintbit...")
 
 begin
     # Flintbit Input Parameters
     @connector_name = @input.get('connector-name')        # Name of the Connector
     @microsoft_id = @input.get('customer-id')             # id of the Microsoft Account
-    @user_id = @input.get('user-id')                      # id of User Account
-    @action = 'update-user' # @input.get("action")
-    @usage_location = @input.get('usage-location') # to set location of user
-    @display_name = @input.get('display-name')
-    @first_name = @input.get('first-name')
-    @last_name = @input.get('last-name')
-    @user_principal_name = @input.get('user-principal-name')
-
+    @action = 'get-available-licenses'                        # @input.get("action")
     @microsoftCloudActionUrl = '/MSCustomerSubscription/performOperations'
 
-    @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | MICROSOFT ID :: #{@microsoft_id}")
+    @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | MICROSOFT ID :: #{@microsoft_id} | User Id :: #{@user_id}")
 
     response = @call.connector(@connector_name)
                     .set('action', @action)
                     .set('microsoft-id', @microsoft_id)
-                    .set('user-id', @user_id)
-                    .set('usage-location', @usage_location)
-                    .set('display-name', @display_name)
-                    .set('first-name', @first_name)
-                    .set('last-name', @last_name)
-                    .set('user-principal-name', @user_principal_name)
                     .sync
 
     response_exitcode = response.exitcode # Exit status code
@@ -37,7 +24,6 @@ begin
         response_body = JSON.parse(response.get('body'))
         response_body['action'] = @action
         response_body['customer-id'] = @microsoft_id
-        response_body['user-id'] = @user_id
         @log.info("RESPONSE :: #{response_body}")
         @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120_000).set('body', response_body.to_json).sync
         @output.set('result::', response_body)
@@ -50,4 +36,4 @@ rescue Exception => e
     @output.set('exit-code', 1).set('message', e.message)
 end
 
-@log.trace("Finished execution 'flint-o365:microsoft-cloud:user_account:update_user.rb' flintbit...")
+@log.trace("Finished execution 'flint-o365:microsoft-cloud:user_account:get_available_licences.rb' flintbit...")

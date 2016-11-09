@@ -82,6 +82,9 @@ when 'get-all-user-roles' # case of action for getting
     @log.info("flint-o365:customer:user-accounts:get_all_user_roles.rb")
     @call.bit('flint-o365:customer:user-accounts:get_all_user_roles.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
+when 'get-available-licenses' # case of action for getting 
+    @log.info("flint-o365:customer:user-accounts:get_available_licenses.rb")
+    @call.bit('flint-o365:customer:user-accounts:get_available_licenses.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 else
   @log.error('Invalid action provided, Please provide valid action')

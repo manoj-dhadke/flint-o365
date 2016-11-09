@@ -19,7 +19,7 @@ begin
 
      response_exitcode = response.exitcode # Exit status code
      response_message =  response.message # Execution status message
-     response_body = response.get("body")
+     response_body = {}
      response_body['action'] = @action
      response_body['customer-id'] = @microsoft_id
      response_body['user-id'] = @user_id
