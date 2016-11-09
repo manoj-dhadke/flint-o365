@@ -62,17 +62,26 @@ when 'change-subscription-add-on-quantity' # case of action for getting change_q
     @log.info("flint-o365:customer:subscription-add-ons:change_quantity.rb")
     @call.bit('flint-o365:customer:subscription-add-ons:change_quantity.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
-when 'suspend-subscription-add-on' # case of action for getting suspend
+when 'suspend-subscription-add-on' # case of action for getting 
     @log.info("flint-o365:customer:subscription-add-ons:suspend.rb")
     @call.bit('flint-o365:customer:subscription-add-ons:suspend.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
-when 'update-user' # case of action for getting suspend
+when 'update-user' # case of action for getting 
     @log.info("flint-o365:customer:user-accounts:update_user.rb")
     @call.bit('flint-o365:customer:user-accounts:update_user.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
-when 'reset-user-account-password' # case of action for getting suspend
+when 'reset-user-account-password' # case of action for getting 
     @log.info("flint-o365:customer:user-accounts:reset_password.rb")
     @call.bit('flint-o365:customer:user-accounts:reset_password.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+
+when 'get-customer-roles' # case of action for getting 
+    @log.info("flint-o365:customer:user-accounts:get_customer_roles.rb")
+    @call.bit('flint-o365:customer:user-accounts:get_customer_roles.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+
+when 'get-all-user-roles' # case of action for getting 
+    @log.info("flint-o365:customer:user-accounts:get_all_user_roles.rb")
+    @call.bit('flint-o365:customer:user-accounts:get_all_user_roles.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+
 
 else
   @log.error('Invalid action provided, Please provide valid action')
