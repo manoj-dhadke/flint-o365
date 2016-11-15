@@ -8,7 +8,7 @@ begin
     @action = 'get-available-licenses'                        # @input.get("action")
     @microsoftCloudActionUrl = '/MSCustomerSubscription/performOperations'
 
-    @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | MICROSOFT ID :: #{@microsoft_id} | User Id :: #{@user_id}")
+    @log.info("Flintbit input parameters are, connector name :: #{@connector_name} | MICROSOFT ID :: #{@microsoft_id}")
 
     response = @call.connector(@connector_name)
                     .set('action', @action)
@@ -17,15 +17,18 @@ begin
 
     response_exitcode = response.exitcode # Exit status code
     response_message =  response.message # Execution status message
-
+    @log.info(response.to_s)
     if response_exitcode == 0
         @log.info("Success in executing #{@connector_name} Connector, where exitcode :: #{response_exitcode} | message :: #{response_message}")
 
         response_body = JSON.parse(response.get('body'))
-        response_body['action'] = @action
-        response_body['customer-id'] = @microsoft_id
-        @log.info("RESPONSE :: #{response_body}")
-        @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120_000).set('body', response_body.to_json).sync
+        itemsArray= response_body["items"]
+        itemsArray.each do |jsonObject|    #Iterating Array of Items get in response
+        @log.info("RESPONSE :: #{jsonObject}")
+        jsonObject['action'] = @action
+        jsonObject['customer-id'] = @microsoft_id
+        @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120_000).set('body', jsonObject.to_json).sync
+        end
         @output.set('result::', response_body)
     else
         @log.error("ERROR in executing #{@connector_name} where, exitcode :: #{response_exitcode} | message :: #{response_message}")
