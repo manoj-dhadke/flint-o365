@@ -28,7 +28,7 @@ begin
         response_body['customer-id'] = @microsoft_id
         @log.info("RESPONSE :: #{response_body}")
         @call.bit('flint-o365:http:http_request.rb').set('method', 'POST').set('url', @microsoftCloudActionUrl).timeout(120_000).set('body', response_body.to_json).sync
-        @output.set('result::', response_body)
+        @output.set('result', response_body)
     else
         @log.error("ERROR in executing #{@connector_name} where, exitcode :: #{response_exitcode} | message :: #{response_message}")
         @output.exit(1, response_message)

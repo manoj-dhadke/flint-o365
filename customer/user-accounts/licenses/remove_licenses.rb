@@ -1,5 +1,5 @@
 require 'json'
-@log.trace("Started execution'flint-o365:microsoft-cloud:user-accounts:licence:remove_licences.rb' flintbit...") 
+@log.trace("Started execution'flint-o365:microsoft-cloud:user-accounts:license:remove_licenses.rb' flintbit...") 
 begin
      @connector_name = @input.get('connector-name')        # Name of the Connector
      @action = 'remove-liciense'						   #@input.get("action")                        
@@ -21,7 +21,7 @@ begin
      response_exitcode = response.exitcode 	# Exit status code
      response_message =  response.message 	# Execution status message
      response_body = JSON.parse(response.get('body')) 
-     response_body['action'] = "" 
+     response_body['action'] = @action
      response_body['customer-id'] = @microsoft_id
      response_body['user-id'] = @user_id
      response_body['license-id'] = @license_id 
@@ -41,4 +41,4 @@ rescue Exception => e
     @log.error(e.message)
     @output.set('exit-code', 1).set('message', e.message)
 end
-@log.trace("Finished execution 'flint-o365:microsoft-cloud:user-accounts:licence:remove_licences.rb' flintbit...") 
+@log.trace("Finished execution 'flint-o365:microsoft-cloud:user-accounts:license:remove_licenses.rb' flintbit...") 
