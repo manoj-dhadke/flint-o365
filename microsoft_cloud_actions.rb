@@ -22,8 +22,8 @@ when 'sync-users' # case of action get-all-customer of user
     @call.bit('flint-o365:customer:user-accounts:sync.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 when 'sync-licenses' # case of action for getting user licenses
-    @log.info("flint-o365:customer:user-accounts:licences:sync.rb")
-    @call.bit('flint-o365:customer:user-accounts:licences:sync.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
+    @log.info("flint-o365:customer:user-accounts:licenses:sync.rb")
+    @call.bit('flint-o365:customer:user-accounts:licenses:sync.rb').set('connector-name', @ofiice365_connector_name).setraw(@input.raw.to_s).timeout(120000).sync
 
 when 'add-user' # case of action for getting user licenses
     @log.info("flint-o365:customer:user-accounts:add_user.rb")
